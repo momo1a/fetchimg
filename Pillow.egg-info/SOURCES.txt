@@ -1,0 +1,14 @@
+Pillow.egg-info/PKG-INFO
+Pillow.egg-info/SOURCES.txt
+Pillow.egg-info/dependency_links.txt
+Pillow.egg-info/requires.txt
+Pillow.egg-info/top_level.txt
+Pillow.egg-info/zip-safe
+tutorial/__init__.py
+tutorial/items.py
+tutorial/middlewares.py
+tutorial/pipelines.py
+tutorial/settings.py
+tutorial/spiders/__init__.py
+tutorial/spiders/detail_spider.py
+tutorial/spiders/tutorial_spider.py
