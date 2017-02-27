@@ -78,12 +78,11 @@ class MySpider(CrawlSpider):
             if detail_next_page:  
                 return Request(detail_current_url + detail_next_page[0], callback=self.detail_parse,meta={'item':imgs})
             else :
-                self.log('over!!!!!!!!!!**************')
-                ld = ItemLoader(item=item, response=response)
-                ld.add_value('title', title)
-                ld.add_value('imgs',imgs)
-                ld.add_value('mmid',mmid)
-                return ld.load_item()
+                self.log('over!!!!!!!!!!**************'+mmid)
+                item['title']= title
+                item['imgs'] = imgs
+                item['mmid'] = mmid
+                return item
         except Exception as e:
             self.log(e)    
             
