@@ -6,20 +6,27 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 import json
 import time
-from scrapy.contrib.pipeline.images import ImagesPipeline
-from scrapy.contrib.spiders import Spider
+from scrapy.pipelines.images import ImagesPipeline
+from scrapy.spiders import Spider
 import requests
 from scrapy.utils.project import get_project_settings
 import os
+import pymysql
+from scrapy import log
+ 
+
 class TutorialPipeline(ImagesPipeline):
     
     def open_spider(self, spider):
         #self.file = open('items.json', 'a')
-        pass
+        self.conn = pymysql.connect(host='192.168.61.97',port=3306,user="root",passwd="123456",db="test",charset="utf8")
+        self.cursor = self.conn.cursor()
+        #pass
 
     def close_spider(self, spider):
         #self.file.close()
-        pass
+        self.conn.close()
+        #pass
         
 #     def process_item(self, item, spider):
 #         line = json.dumps(dict(item)) + "\n"
@@ -54,4 +61,14 @@ class TutorialPipeline(ImagesPipeline):
                         handle.write(block)
 
             item['imgs'] = images
+            try:
+                sql = 'INSERT INTO mm_imgs SET mmid="'+item['mmid']+'",img=\''+json.dumps(item['imgs'])+'\',title="'+item['title']+'",dateline= '+str(int(time.time()))
+                log.msg(sql,log.INFO)
+                self.cursor.execute(sql)
+                self.conn.commit()
+            except Exception as e:
+                log.msg('ERROR ERROR ***** ERROR ERROR !!!'+e,log.INFO)
+                self.conn.rollback()
         return item
+    
+    

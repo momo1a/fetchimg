@@ -20,14 +20,14 @@ NEWSPIDER_MODULE = 'tutorial.spiders'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
-
+HTTPERROR_ALLOWED_CODES = [514]
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
 
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-#DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 0.25
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -71,7 +71,9 @@ ITEM_PIPELINES = {
 }
 # 图片存储路径
 
-IMAGES_STORE = 'F:/myworkspace/tutorial/imgs'
+IMAGES_STORE = 'F:/myworkspace/tutorial/lol'
+
+
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
 #AUTOTHROTTLE_ENABLED = True
