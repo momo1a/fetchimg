@@ -46,9 +46,11 @@ DOWNLOAD_DELAY = 0.25
 
 # Enable or disable spider middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
+SPIDER_MIDDLEWARES = {
 #    'tutorial.middlewares.TutorialSpiderMiddleware': 543,
-#}
+    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware':None,  
+    'tutorial.middlewares.RotateUserAgentMiddleware': 400,
+}
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html

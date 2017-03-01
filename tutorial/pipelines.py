@@ -12,8 +12,8 @@ import requests
 from scrapy.utils.project import get_project_settings
 import os
 import pymysql
-from scrapy import log
- 
+import logging
+logger = logging.getLogger(__name__)
 
 class TutorialPipeline(ImagesPipeline):
     
@@ -21,6 +21,7 @@ class TutorialPipeline(ImagesPipeline):
         #self.file = open('items.json', 'a')
         self.conn = pymysql.connect(host='192.168.61.97',port=3306,user="root",passwd="123456",db="test",charset="utf8")
         self.cursor = self.conn.cursor()
+         
         #pass
 
     def close_spider(self, spider):
@@ -63,11 +64,11 @@ class TutorialPipeline(ImagesPipeline):
             item['imgs'] = images
             try:
                 sql = 'INSERT INTO mm_imgs SET mmid="'+item['mmid']+'",img=\''+json.dumps(item['imgs'])+'\',title="'+item['title']+'",dateline= '+str(int(time.time()))
-                log.msg(sql,log.INFO)
+                logger.info(sql)
                 self.cursor.execute(sql)
                 self.conn.commit()
             except Exception as e:
-                log.msg('ERROR ERROR ***** ERROR ERROR !!!'+e,log.INFO)
+                logger.info('ERROR ERROR ***** ERROR ERROR !!!'+e)
                 self.conn.rollback()
         return item
     
