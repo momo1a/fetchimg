@@ -49,9 +49,9 @@ class MySpider(CrawlSpider):
             # 下一页
             current_url = re.findall(r'http://www.mm131.com/\w+/', response.url)[0]
             # 获取到下一页的url     
-            next_url = response.xpath('//dd[@class="page"]/a[text()="下一页"]/@href').extract()[0]
-            
-            return Request(current_url + next_url, callback=self.caterogy_parse)
+            next_url = response.xpath('//dd[@class="page"]/a[text()="下一页"]/@href').extract()
+            if next_url:
+                yield Request(current_url + next_url[0], callback=self.caterogy_parse)
         except Exception as e:
             pass
             
