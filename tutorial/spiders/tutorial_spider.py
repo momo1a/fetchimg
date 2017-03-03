@@ -8,6 +8,7 @@ from scrapy.http import HtmlResponse, Request
 from scrapy.loader import ItemLoader
 from tutorial.items import TutorialItem
 import re
+import pymysql
 from pymysql.err import MySQLError
 
 class MySpider(CrawlSpider):
