@@ -8,6 +8,7 @@ from scrapy.http import HtmlResponse, Request
 from scrapy.loader import ItemLoader
 from tutorial.items import TutorialItem
 import re
+from pymysql.err import MySQLError
 
 class MySpider(CrawlSpider):
     name = 'mm131'
@@ -75,8 +76,8 @@ class MySpider(CrawlSpider):
             sql = 'SELECT * FROM mm_imgs WHERE mmid='+mmid
             self.cursor.execute(sql)
             result = self.cursor.fetchone()
-            if result:
-                continue
+            if result is not None:
+                raise MySQLError
             imgs = response.meta.get('item')
             if imgs:
                 imgs = imgs
