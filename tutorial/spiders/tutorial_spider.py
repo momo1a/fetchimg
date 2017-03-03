@@ -13,6 +13,11 @@ class MySpider(CrawlSpider):
     name = 'mm131'
     allowed_domains = ['mm131.com']
     start_urls = ['http://www.mm131.com']
+    
+    def __init__(self, *args, **kwargs):
+        super(MySpider, self).__init__(*args, **kwargs)
+        self.conn = pymysql.connect(host='101.37.78.128',port=30001,user="root",passwd="moting1a",db="mm",charset="utf8")
+        self.cursor = self.conn.cursor()
 
     rules = (
         # 提取匹配 'category.php' (但不匹配 'subsection.php') 的链接并跟进链接(没有callback意味着follow默认为True)
@@ -67,6 +72,11 @@ class MySpider(CrawlSpider):
             img_src = response.xpath('//div[@class="content-pic"]/a/img/@src').extract()[0]
             # 图片所属id
             mmid = img_src.split('/')[-2]
+            sql = 'SELECT * FROM mm_imgs WHERE mmid='+mmid
+            self.cursor.execute(sql)
+            result = self.cursor.fetchone()
+            if result:
+                continue
             imgs = response.meta.get('item')
             if imgs:
                 imgs = imgs
@@ -84,7 +94,12 @@ class MySpider(CrawlSpider):
                 item['mmid'] = mmid
                 return item
         except Exception as e:
-            self.log(e)    
+            self.log(e) 
+            
+            
+    # 蜘蛛关闭
+    def closed(self):    
+        self.conn.close()   
             
             
                    
