@@ -36,7 +36,7 @@ class TutorialPipeline(ImagesPipeline):
     
      
     def process_item(self, item, spider):
-        if 'imgs' in item:#如何‘图片地址’在项目中
+        if 'imgs' in item and spider.name == 'mm131':#如何‘图片地址’在项目中
             images = []#定义图片空集
             
             #dir_path = '%s/%s' % (get_project_settings()['IMAGES_STORE'], item['mmid'])
@@ -70,6 +70,12 @@ class TutorialPipeline(ImagesPipeline):
             except Exception as e:
                 logger.info('ERROR ERROR ***** ERROR ERROR !!!'+e)
                 self.conn.rollback()
+                
+        elif spider.name == 'yesky':
+            
+            pass
+        
+        
         return item
     
     
